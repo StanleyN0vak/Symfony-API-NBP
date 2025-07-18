@@ -25,7 +25,7 @@ COPY . .
 COPY composer.json composer.lock ./
 ENV COMPOSER_DISABLE_RUN_SCRIPT=1
 COPY .env .env
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 ################################################################################
 
@@ -80,6 +80,9 @@ RUN apt-get update && apt-get install -y \
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 ###> recipes ###
+###> doctrine/doctrine-bundle ###
+#RUN install-php-extensions pdo_mysql
+###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
 # Copy the app dependencies from the previous install stage.
