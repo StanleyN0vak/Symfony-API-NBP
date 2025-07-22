@@ -4,36 +4,32 @@ namespace App\Entity;
 
 use App\Repository\CurrencyRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Rfc4122\UuidInterface;
-use Ramsey\Uuid\Rfc4122\UuidV6;
+use Ramsey\Uuid\Uuid;
 
 #[ORM\Entity(repositoryClass: CurrencyRepository::class)]
 class Currency
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?UuidInterface $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private string $id;
 
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $currency_code = null;
 
     #[ORM\Column]
     private ?float $exchange_rate = null;
 
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
+        $this->id = Uuid::uuid4()->toString();
     }
 
-    public function setId(UuidV6 $id): static
+    public function getId(): string
     {
-        $this->id = $id;
-
-        return $this;
+        return $this->id;
     }
 
     public function getName(): ?string
